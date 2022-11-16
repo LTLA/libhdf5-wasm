@@ -1,5 +1,5 @@
 WASM_BUILD_DIR = wasm_build
-HDF5_VERSIONS = 1_12_1 1_13_0 1_10_8
+HDF5_VERSIONS = 1_12_1 1_13_0
 INSTALL_PATHS = $(patsubst %, $(WASM_BUILD_DIR)/%/hdf5, $(HDF5_VERSIONS))
 TARBALLS = $(patsubst %, libhdf5-%-wasm.tar.gz, $(HDF5_VERSIONS))
 
@@ -9,7 +9,7 @@ release: $(TARBALLS)
 $(WASM_BUILD_DIR)/%/hdf5: VERSION=$(*)
 $(WASM_BUILD_DIR)/%/hdf5:
 	mkdir -p $(WASM_BUILD_DIR)/$(VERSION);
-	cd $(WASM_BUILD_DIR)/$(VERSION) && emcmake cmake ../../ -DHDF5_VERSION=$(VERSION);
+	cd $(WASM_BUILD_DIR)/$(VERSION) && emcmake cmake ../../ -DHDF5_VERSION=$(VERSION) -DCMAKE_CROSSCOMPILING_EMULATOR="node;--experimental-wasm-threads;--experimental-wasm-memory64";
 	cd $(WASM_BUILD_DIR)/$(VERSION) && emmake make -j8 install;
 
 libhdf5-%-wasm.tar.gz: VERSION=$(*)

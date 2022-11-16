@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 include(FetchContent)
 
+# Adding 64-bit options.
+add_compile_options("-sMEMORY64")
+add_link_options("-sMEMORY64")
+
 # pre-cache the linker flags
 set(CMAKE_EXE_LINKER_FLAGS_INIT "-sNODERAWFS=1 -sUSE_ZLIB=1 -sFORCE_FILESYSTEM=1" CACHE INTERNAL "")
 set(HDF5_VERSION "1_12_1" CACHE STRING "HDF5 version to build")
